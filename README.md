@@ -6,4 +6,4 @@
 
 `composer install`;
 
-`phpunit ArrayTests` (если phpunit установлен глобально)
+`phpunit ArrayTests`

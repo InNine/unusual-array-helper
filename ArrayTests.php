@@ -23,87 +23,84 @@ class ArrayTests extends \PHPUnit\Framework\TestCase
         $this->arrayHelper = NULL;
     }
 
-    /**
-     * Тесты к первой задаче
-     * Дан несортированный массив чисел. дана сумма какая то n.
-     * нужно выяснить есть ли в массиве два числа которые в сумме дают n
-     */
-    public function testCheckSum()
+    public function firstTaskProvider(): array
     {
-        $array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 12, 32, 44, 2, 12];
-        $result = $this->arrayHelper->checkSum($array, 5);
-        $this->assertEquals(true, $result);
-        $result = $this->arrayHelper->checkSum($array, 100);
-        $this->assertEquals(false, $result);
-        $result = $this->arrayHelper->checkSum($array, -1);
-        $this->assertEquals(false, $result);
-        $result = $this->arrayHelper->checkSum($array, 0);
-        $this->assertEquals(false, $result);
-        $result = $this->arrayHelper->checkSum($array, null);
-        $this->assertEquals(false, $result);
-        $array = [];
-        $result = $this->arrayHelper->checkSum($array, 1);
-        $this->assertEquals(false, $result);
-        $array = [-1, -2, -3];
-        $result = $this->arrayHelper->checkSum($array, 1);
-        $this->assertEquals(false, $result);
-        $result = $this->arrayHelper->checkSum($array, -3);
-        $this->assertEquals(true, $result);
-    }
-
-    /*
-     * Тесты ко второй задаче
-     * Дан некий массив строк состоящих из строчных латинских символов, задача найти максимальный общий префикс среди всех строк.
-     * Пример:
-     * [ "qwe", "qweasd", "qwsdfsdf", "tr" ] -> ""
-     * [ "qwe", "qweasd", "qwsdfsdf" ] -> "qw"
-     * [ "qwe", "qeasd", "qwsdfsdf" ] -> "q"
-     */
-    public function testGetPrefix()
-    {
-        $array = ["qwe", "qweasd", "qwsdfsdf", "tr"];
-        $result = $this->arrayHelper->getPrefix($array);
-        $this->assertEquals('', $result);
-        $array = ["qwe", "qweasd", "qwsdfsdf"];
-        $result = $this->arrayHelper->getPrefix($array);
-        $this->assertEquals("qw", $result);
-        $array = ["qwe", "qeasd", "qwsdfsdf"];
-        $result = $this->arrayHelper->getPrefix($array);
-        $this->assertEquals("q", $result);
-        $array = [];
-        $result = $this->arrayHelper->getPrefix($array);
-        $this->assertEquals("", $result);
-        $array = [13, 12, 123];
-        $result = $this->arrayHelper->getPrefix($array);
-        $this->assertEquals("1", $result);
+        return [
+            [[1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 12, 32, 44, 2, 12], 5, true],
+            [[1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 12, 32, 44, 2, 12], 100, false],
+            [[1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 12, 32, 44, 2, 12], -1, false],
+            [[1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 12, 32, 44, 2, 12], 0, false],
+            [[1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 12, 32, 44, 2, 12], null, false],
+            [[], 1, false],
+            [[-1, -2, -3], 1, false],
+            [[-1, -2, -3], -3, true],
+        ];
     }
 
     /**
-     * Тесты к третьей задаче
-     * Дан массив чисел. дано расстояние k. если числа в массиве находятся рядом то они на расстоянии 1 друг от друга.
-     * нужно найти количество пар дублей, которые находятся на расстоянии k друг от друга
+     * Проверка функции дя 1 задания
+     * @param array $array
+     * @param int $sum
+     * @param bool $expected
+     * @dataProvider firstTaskProvider
      */
-    public function testGetDoubles()
+    public function testCheckSum($array, $sum, $expected): void
     {
-        $array = [1,2,3,4,5,6,7,8,1,2,4,4,5,2];
-        $result = $this->arrayHelper->getDoubles($array, 8);
-        $this->assertEquals(4, $result);
-        $result = $this->arrayHelper->getDoubles($array, 10);
-        $this->assertEquals(0, $result);
-        $result = $this->arrayHelper->getDoubles($array, 12);
-        $this->assertEquals(1, $result);
-        $result = $this->arrayHelper->getDoubles($array, -8);
-        $this->assertEquals(4, $result);
-        $result = $this->arrayHelper->getDoubles($array, 0);
-        $this->assertEquals(0, $result);
-        $array = [];
-        $result = $this->arrayHelper->getDoubles($array, 8);
-        $this->assertEquals(0, $result);
-        $array = [-1, -2, -1, -2];
-        $result = $this->arrayHelper->getDoubles($array, 2);
-        $this->assertEquals(2, $result);
-        $array = [-1, -2, 1, 2];
-        $result = $this->arrayHelper->getDoubles($array, 2);
-        $this->assertEquals(0, $result);
+        $result = $this->arrayHelper->checkSum($array, $sum);
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array
+     */
+    public function secondTaskProvider(): array
+    {
+        return [
+            [["qwe", "qweasd", "qwsdfsdf", "tr"], ''],
+            [["qwe", "qweasd", "qwsdfsdf"], 'qw'],
+            [["qwe", "qeasd", "qwsdfsdf"], 'q'],
+            [[], ''],
+            [[13, 12, 123], '1'],
+        ];
+    }
+
+    /**
+     * Проверка функции для 2 задания
+     * @param $array
+     * @param $expected
+     * @dataProvider secondTaskProvider
+     */
+    public function testGetPrefix($array, $expected): void
+    {
+        $result = $this->arrayHelper->getPrefix($array);
+        $this->assertEquals($expected, $result);
+    }
+
+    public function thirdTaskProvider(): array
+    {
+        return [
+            [[1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 4, 4, 5, 2], 8, 4],
+            [[1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 4, 4, 5, 2], 10, 0],
+            [[1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 4, 4, 5, 2], 12, 1],
+            [[1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 4, 4, 5, 2], -8, 4],
+            [[1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 4, 4, 5, 2], 0, 0],
+            [[], 8, 0],
+            [[-1, -2, -1, -2], 2, 2],
+            [[-1, -2, 1, 2], 2, 0],
+        ];
+    }
+
+    /**
+     * проверка функции для 3 задания
+     * @param array $array
+     * @param int $k
+     * @param int $expected
+     * @dataProvider thirdTaskProvider
+     */
+    public function testGetDoubles($array, $k, $expected): void
+    {
+        $result = $this->arrayHelper->getDoubles($array, $k);
+        $this->assertEquals($expected, $result);
+
     }
 }

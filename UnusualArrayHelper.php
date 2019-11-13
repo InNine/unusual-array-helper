@@ -10,6 +10,7 @@ class UnusualArrayHelper
 {
 
     /**
+     * Решение первой задачи
      * @param array $array
      * @param int $sum
      * @return bool
@@ -38,6 +39,7 @@ class UnusualArrayHelper
 
 
     /**
+     * Решение второй задачи
      * @param array $array
      * @return string
      */
@@ -76,6 +78,7 @@ class UnusualArrayHelper
     }
 
     /**
+     * Решение третьей задачи
      * @param array $array
      * @param int $k
      * @return int
